@@ -4,6 +4,6 @@ namespace DronesTest.Gameplay
 {
     public interface IResourceFinder
     {
-        ResourceBase FindNearest(Vector3 position);
+        bool TryFindNearest(Vector3 position, out ResourceBase outResource);
     }
 }

@@ -5,7 +5,7 @@ namespace DronesTest.Gameplay
 {
     public class ResourceSpawner : MonoBehaviour
     {
-        [SerializeField] private float _spawnInterval = 2f;
+        [SerializeField, Range(1, 10)] private float _spawnInterval = 2f;
         [SerializeField] private SpawnZone _spawnZone;
 
         private IPoolGetter<ResourceBase> _pool;

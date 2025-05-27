@@ -12,6 +12,7 @@ public class SampleInstaller : MonoInstaller
             .AsSingle()
             .WithArguments(resource);
         Container.BindInterfacesAndSelfTo<ResourceManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
     }
 }

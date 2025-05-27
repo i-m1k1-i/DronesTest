@@ -5,7 +5,16 @@ namespace DronesTest.Gameplay
 {
     public class ResourceManager : IResourceFinder, IResourceProvider
     {
-        private HashSet<ResourceBase> _resources = new();
+        private readonly HashSet<ResourceBase> _resources = new();
+
+        public ResourceManager()
+        {
+            var resources = GameObject.FindObjectsByType<ResourceBase>(FindObjectsSortMode.None);
+            foreach (var resource in resources)
+            {
+                Register(resource);
+            }
+        }
 
         public void Register(ResourceBase resource)
         {
@@ -22,23 +31,33 @@ namespace DronesTest.Gameplay
             return _resources;
         }
 
-        public ResourceBase FindNearest(Vector3 position)
+        public bool TryFindNearest(Vector3 position, out ResourceBase nearestResource)
         {
-            ResourceBase nearest = null;
+            if (_resources.Count == 0)
+            {
+                nearestResource = null;
+                return false;
+            }
 
+            nearestResource = null;
             float minDistance = float.MaxValue;
 
             foreach (var resource in _resources)
             {
+                if (resource.IsAvailable == false)
+                {
+                    continue;
+                }
+
                 float distance = Vector3.Distance(position, resource.transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    nearest = resource;
+                    nearestResource = resource;
                 }
             }
 
-            return nearest;
+            return nearestResource != null;
         }
     }
 }

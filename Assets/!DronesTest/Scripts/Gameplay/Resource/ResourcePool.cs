@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
+using Zenject;
 
 namespace DronesTest.Gameplay
 {
@@ -9,12 +10,14 @@ namespace DronesTest.Gameplay
         const int MaxSize = 100;
 
         private readonly IResourceProvider _resourceProvider;
+        private readonly ResourceBase _prefab;
         private readonly ObjectPool<ResourceBase> _pool;
+        private readonly DiContainer _container;
 
-        public ResourcePool(ResourceBase prefab, IResourceProvider resourceProvider)
+        public ResourcePool(ResourceBase prefab, IResourceProvider resourceProvider, DiContainer container)
         {
             _pool =  new ObjectPool<ResourceBase>(
-                createFunc: () => GameObject.Instantiate(prefab),
+                createFunc: OnCreate,
                 actionOnGet: OnGet,
                 actionOnRelease: OnRelease,
                 actionOnDestroy: obj => GameObject.Destroy(obj.gameObject),
@@ -24,6 +27,8 @@ namespace DronesTest.Gameplay
                     );
 
             _resourceProvider = resourceProvider;
+            _prefab = prefab;
+            _container = container;
         }
 
         public ResourceBase Get()
@@ -34,6 +39,18 @@ namespace DronesTest.Gameplay
         public void Release(ResourceBase resource)
         {
             _pool.Release(resource);
+        }
+
+        private ResourceBase OnCreate()
+        {
+            var resource = _container.InstantiatePrefabForComponent<ResourceBase>(
+                _prefab,
+                Vector3.zero,
+                Quaternion.identity,
+                null
+                );
+
+            return resource;
         }
 
         private void OnGet(ResourceBase obj)
