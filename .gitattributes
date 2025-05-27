@@ -1,0 +1,54 @@
+*.unity          text merge=union
+*.prefab         text merge=union
+*.asset          text merge=union
+*.mat            text
+*.anim           text
+*.controller     text
+*.overrideController text
+*.timeline       text
+*.signal         text
+*.meta           text
+
+*.cs             text diff=csharp
+
+*.shader         text
+*.compute        text
+*.cginc          text
+
+*.uxml           text
+*.uss            text
+*.shadergraph    text
+*.vfxgraph       text
+
+*.json           text
+*.xml            text
+*.asmdef         text
+*.md             text
+*.txt            text
+
+*.unitypackage   binary
+*.dll            binary
+*.pdb            binary
+*.mdb            binary
+*.so             binary
+*.keystore       binary
+
+*.fbx            binary
+*.obj            text
+*.blend          binary
+*.png            binary
+*.jpg            binary
+*.jpeg           binary
+*.tga            binary
+*.psd            binary
+*.wav            binary
+*.mp3            binary
+*.ogg            binary
+*.mp4            binary
+*.mov            binary
+
+*.sln            text
+*.csproj         text
+*.user           text
+*.vsconfig       text
+.vs/**           binary
